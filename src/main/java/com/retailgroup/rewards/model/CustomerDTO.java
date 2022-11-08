@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class CustomerDTO {
-    Long totalRewards;
+    //Long totalRewards;
     String firstName;
     String lastName;
     Date createDate;

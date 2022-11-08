@@ -13,4 +13,5 @@ public interface TransactionRepository extends CrudRepository<Transaction,Long> 
     Transaction save(Transaction t);
 
 
+    Iterable<Transaction> findByCustomer(Customer customer);
 }

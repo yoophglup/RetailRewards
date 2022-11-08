@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Transaction extends BaseEntity{
-    @Getter
     Date transactionDate;
     Long transactionTotal;
 

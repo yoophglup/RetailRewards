@@ -1,9 +1,6 @@
 package com.retailgroup.rewards.controller;
 
-import com.retailgroup.rewards.model.Customer;
-import com.retailgroup.rewards.model.CustomerDTO;
-import com.retailgroup.rewards.model.Transaction;
-import com.retailgroup.rewards.model.TransactionDTO;
+import com.retailgroup.rewards.model.*;
 import com.retailgroup.rewards.services.CustomerService;
 import com.retailgroup.rewards.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +39,49 @@ public class RewardsController {
     public Transaction create(@PathVariable Long id,@RequestBody TransactionDTO transactionDTO){
         Transaction t = transactionService.mapper(transactionDTO);
         t.setCustomer(customerService.getCustomer(id));
-        customerService.getCustomer(id).setTotalRewards(customerService.updateRewards(customerService.getCustomer(id),t.getTransactionTotal()));
+        //customerService.getCustomer(id).setTotalRewards(customerService.updateRewards(customerService.getCustomer(id),t.getTransactionTotal()));
         Transaction transaction = transactionService.create(t);
         return transaction;
     }
+    @RequestMapping(method = RequestMethod.GET, value= "/transaction/{id}")
+    public Transaction readTransaction(@PathVariable Long id){
+        return transactionService.getTransaction(id);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/transaction/{id}")
+    public String deleteTransaction(@PathVariable Long id){
+        transactionService.delete(id);
+        return "Transaction Delete";
+    }
+    @RequestMapping(method = RequestMethod.PUT, value = "/transaction/{id}", consumes ="application/json")
+    public Transaction update(@PathVariable Long id, @RequestBody TransactionDTO transactionDTO){
+        Transaction t = transactionService.getTransaction(id);
+        Transaction transaction = transactionService.update(t, transactionDTO);
+        return transaction;
+    }
+    @RequestMapping(method = RequestMethod.GET, value= "/getAllTransactions/")
+    public Iterable<Transaction> getAlltrans(){
+        Iterable<Transaction> c = transactionService.getAllTransaction();
+        return c;
+    }
+    @RequestMapping(method = RequestMethod.GET, value= "/getAllTransactions/{customerId}")
+    public Iterable<Transaction> getCustomersTransactions(@PathVariable Long customerId){
+        Iterable<Transaction> c = transactionService.getAllCustomersTransactions(customerId);
+        return c;
+    }
+    @RequestMapping(method = RequestMethod.GET, value= "/getCustomersPts/{customerId}")
+    public Long getCustomersPts(@PathVariable Long customerId){
+        Iterable<Transaction> c = transactionService.getAllCustomersTransactions(customerId);
+        Long points=0l;
+        points=transactionService.getCustomerPoints(customerId);
+        return points;
+    }
+
+
+
+
+
+
 
 
 }

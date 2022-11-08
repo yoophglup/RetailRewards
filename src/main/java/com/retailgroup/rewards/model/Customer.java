@@ -13,9 +13,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class Customer extends BaseEntity{
-    @Getter
     String firstName;
     String lastName;
     Date createDate;
-    Long totalRewards;
+    //Long totalRewards;
 }
